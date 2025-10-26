@@ -22,6 +22,9 @@ import javafx.scene.paint.Color;
 
 import javafx.geometry.Pos;
 
+import javafx.scene.control.Alert;
+
+import javafx.geometry.Insets;
 public class GameScene {
 	Scene scene;	
 	public GameScene(){
@@ -29,16 +32,65 @@ public class GameScene {
 		BetCard BETCARD = new BetCard();
 
 		BorderPane root = new BorderPane();
-		scene = new Scene(root, 700, 450);
+		scene = new Scene(root, 700, 340); //450);
 
 		MenuItem menuButtonRules 			 = new MenuItem("Rules");
 		MenuItem menuButtonProbability = new MenuItem("Probability");
 		MenuItem menuButtonQuit				 = new MenuItem("Quit");
 		MenuButton menuButton = new MenuButton("Menu", null, menuButtonRules, menuButtonProbability, menuButtonQuit);
 
-		//NOTE UNCOMPLETE
-		menuButtonRules.setOnAction(e -> {});
-		menuButtonProbability.setOnAction(e -> {});
+		menuButtonRules.setOnAction(e -> {
+
+
+        String rules = "Keno Game Rules:\n\n" +
+                "1. Choose how many numbers (spots) you want to play: 1, 4, 8, or 10\n" +
+                "2. Select your numbers from 1 to 80 on the bet card\n" +
+                "3. Choose how many drawings to play (1-4)\n" +
+                "4. 20 numbers will be drawn randomly with no duplicates\n" +
+                "5. Win prizes based on how many of your numbers match the drawn numbers\n" +
+                "6. You can play multiple drawings with the same bet card\n\n" +
+                "Good luck!";
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Keno Rules");
+        alert.setHeaderText("How to Play Keno");
+        alert.setContentText(rules);
+        alert.getDialogPane().setMinHeight(400);
+        alert.showAndWait();
+
+		});
+		menuButtonProbability.setOnAction(e -> {
+
+
+        String odds = "Keno Odds (Based on North Carolina Lottery):\n\n" +
+                "SPOT 1:\n" +
+                "• Match 1: Win $2 (1 in 4 odds)\n\n" +
+                "SPOT 4:\n" +
+                "• Match 2: Win $1 (1 in 4.5 odds)\n" +
+                "• Match 3: Win $5 (1 in 9.5 odds)\n" +
+                "• Match 4: Win $75 (1 in 327 odds)\n\n" +
+                "SPOT 8:\n" +
+                "• Match 4: Win $2 (1 in 5.1 odds)\n" +
+                "• Match 5: Win $12 (1 in 16.6 odds)\n" +
+                "• Match 6: Win $50 (1 in 87.5 odds)\n" +
+                "• Match 7: Win $750 (1 in 1,221 odds)\n" +
+                "• Match 8: Win $10,000 (1 in 23,474 odds)\n\n" +
+                "SPOT 10:\n" +
+                "• Match 0: Win $5 (1 in 22.1 odds)\n" +
+                "• Match 5: Win $2 (1 in 4.7 odds)\n" +
+                "• Match 6: Win $15 (1 in 15.3 odds)\n" +
+                "• Match 7: Win $100 (1 in 81.7 odds)\n" +
+                "• Match 8: Win $1,000 (1 in 867 odds)\n" +
+                "• Match 9: Win $5,000 (1 in 21,383 odds)\n" +
+                "• Match 10: Win $100,000 (1 in 8,911,711 odds)";
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Keno Odds");
+        alert.setHeaderText("Payouts and Odds");
+        alert.setContentText(odds);
+        alert.getDialogPane().setMinHeight(500);
+        alert.showAndWait();
+		});
 		menuButtonQuit.setOnAction(e -> {System.exit(0);});
 		//
 		///
@@ -108,7 +160,11 @@ public class GameScene {
 
 						//Depending on what happens, We need to make sure that the toggle is correct
 						curButton.setSelected(BETCARD.getSelectedSpots().contains(jj));
-
+                if (BETCARD.getSelectedSpots().contains(jj)){
+                        curButton.setStyle("-fx-background-color: lightblue");
+                } 
+                else
+                        curButton.setStyle("");
 						statText.setText(BETCARD.displayStats());
 						beginButton.setDisable(!BETCARD.ableToBegin());
 				});
@@ -116,8 +172,8 @@ public class GameScene {
 				betCard.add(curButton, x, y);
 			}
 		}
-
-	
+        betCard.setPadding(new Insets(10));
+        	
 		Rectangle INVISIBLE = new Rectangle(75,100);
 		INVISIBLE.setFill(Color.TRANSPARENT);
 
@@ -136,7 +192,7 @@ public class GameScene {
 		///
 
 
-		Rectangle bottomPane = new Rectangle(650,200);
+		Rectangle bottomPane = new Rectangle(300,100);//(650,200);
 		bottomPane.setFill(Color.LIGHTGREY);
 		bottomPane.setArcWidth(15);
 		bottomPane.setArcHeight(15);
@@ -189,10 +245,11 @@ public class GameScene {
 
 		});
 		
+    drawingContainer.setAlignment(Pos.CENTER);
 
 		///Setup T(H)REE
 
-		Text SHText = new Text("Pick your numbers.\nor"); 
+		Text SHText = new Text("Pick your numbers.\n             or"); 
 		//HBox SHBUTTONS = new HBox();
 		Button quickPickButton = new Button("Quick Pick");
 		//Button beginButton = new Button("Begin Drawing");
@@ -245,7 +302,7 @@ public class GameScene {
 
 		VBox setupThree = new VBox();
 		setupThree.getChildren().addAll(SHText, quickPickButton, beginButton);
-
+        setupThree.setAlignment(Pos.CENTER);
 
 
 		///Setup TWO
@@ -276,10 +333,10 @@ public class GameScene {
 			});
 
 		}
-
+        STBUTTONS.setAlignment(Pos.CENTER);
 		VBox setupTwo = new VBox();
 		setupTwo.getChildren().addAll(STText, STBUTTONS);
-
+        setupTwo.setAlignment(Pos.CENTER);
 
 
 
@@ -305,9 +362,10 @@ public class GameScene {
 
 		}
 
+    SOBUTTONS.setAlignment(Pos.CENTER);
 		VBox setupOne = new VBox();
 		setupOne.getChildren().addAll(SOText, SOBUTTONS);
-
+        setupOne.setAlignment(Pos.CENTER);
 
 		///THIS LINE IS TAKEN FROM DRAWING
 		goAgainButton.setOnAction(e -> {
