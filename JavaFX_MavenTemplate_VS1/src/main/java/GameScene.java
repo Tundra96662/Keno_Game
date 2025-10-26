@@ -70,9 +70,18 @@ public class GameScene {
 		statsPane.setArcWidth(15);
 		statsPane.setArcHeight(15);
 
-		Text statText = new Text(BETCARD.displayStats()); 
+		Text statText = new Text(BETCARD.displayClear()); 
 		StackPane holder = new StackPane();
 		holder.getChildren().addAll(statsPane,statText);
+
+
+
+
+		///NOTE: tHis LINE IS FROM SETUP 3
+		Button beginButton = new Button("Begin Drawing");
+		beginButton.setDisable(true);
+
+
 
 
 
@@ -100,8 +109,8 @@ public class GameScene {
 						//Depending on what happens, We need to make sure that the toggle is correct
 						curButton.setSelected(BETCARD.getSelectedSpots().contains(jj));
 
-						
 						statText.setText(BETCARD.displayStats());
+						beginButton.setDisable(!BETCARD.ableToBegin());
 				});
 
 				betCard.add(curButton, x, y);
@@ -138,15 +147,55 @@ public class GameScene {
 
 		
 		///DRAWING TIME
+		Text DT = new Text(BETCARD.displayDrawingStats());
+		Button nextDrawingButton = new Button("Next Drawing");
+		nextDrawingButton.setDisable(true);
+		
+		Button goAgainButton = new Button("Go again");
+		goAgainButton.setDisable(true);
 		
 
+		Button exitProgramButton = new Button("Exit program");
+		exitProgramButton.setDisable(true);
+		exitProgramButton.setOnAction(e -> {System.exit(0);});
+
+		VBox drawingContainer = new VBox();
+
+		nextDrawingButton.setOnAction(e->{
+		  BETCARD.curDrawing++;
+			DT.setText(BETCARD.displayDrawingStats());
+
+			drawingContainer.getChildren().clear();
+			stackPane.getChildren().clear();
+			
+			if (( BETCARD.maxDrawing - BETCARD.curDrawing) >= 1){
+				drawingContainer.getChildren().addAll(DT, nextDrawingButton);
+				BETCARD.beginDrawing(betCardButtons,nextDrawingButton, statText);
+			}
+			else{
+				drawingContainer.getChildren().addAll(DT, goAgainButton, exitProgramButton);
+				BETCARD.beginDrawing(betCardButtons, goAgainButton, exitProgramButton, statText);
+			}
+
+			stackPane.getChildren().addAll(bottomPane, drawingContainer);
+
+			//Same code as begin button
+			for (int y = 0; y < 8; y++){
+				for (int x = 0; x < 10; x++){
+					betCardButtons[y][x].setDisable(true);
+					betCardButtons[y][x].setStyle("");
+				}
+			}
+
+		});
+		
 
 		///Setup T(H)REE
 
 		Text SHText = new Text("Pick your numbers.\nor"); 
 		//HBox SHBUTTONS = new HBox();
 		Button quickPickButton = new Button("Quick Pick");
-		Button beginButton = new Button("Begin Drawing");
+		//Button beginButton = new Button("Begin Drawing");
 		
 		quickPickButton.setOnAction(e->{
 
@@ -162,12 +211,12 @@ public class GameScene {
 				}
 			}
 
+			beginButton.setDisable(false);
 
 		});
 
 
 		beginButton.setOnAction(e->{
-			BETCARD.beginDrawing(betCardButtons);
 
 			for (int y = 0; y < 8; y++){
 				for (int x = 0; x < 10; x++){
@@ -175,6 +224,22 @@ public class GameScene {
 					betCardButtons[y][x].setStyle("");
 				}
 			}
+	
+
+			DT.setText(BETCARD.displayDrawingStats());
+
+			drawingContainer.getChildren().clear();
+			stackPane.getChildren().clear();
+			if (BETCARD.maxDrawing > 1){
+				drawingContainer.getChildren().addAll(DT, nextDrawingButton);
+				BETCARD.beginDrawing(betCardButtons,nextDrawingButton, statText);
+			}
+			else{
+				drawingContainer.getChildren().addAll(DT, goAgainButton, exitProgramButton);
+				BETCARD.beginDrawing(betCardButtons, goAgainButton, exitProgramButton, statText);
+			}
+			stackPane.getChildren().addAll(bottomPane, drawingContainer);
+
 		});
 
 
@@ -240,6 +305,18 @@ public class GameScene {
 		setupOne.getChildren().addAll(SOText, SOBUTTONS);
 
 
+		///THIS LINE IS TAKEN FROM DRAWING
+		goAgainButton.setOnAction(e -> {
+			BETCARD.clearSelectedSpots();
+			for (int y = 0; y < 8; y++){
+				for (int x = 0; x < 10; x++){
+					betCardButtons[y][x].setStyle("");
+				}
+			}
+			statText.setText(BETCARD.displayClear());
+			stackPane.getChildren().clear();
+			stackPane.getChildren().addAll(bottomPane,setupOne);
+		});
 
 		stackPane.getChildren().addAll(bottomPane,setupOne);
 
