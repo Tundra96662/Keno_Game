@@ -121,7 +121,9 @@ public class BetCard{
 		nextDrawingButton.setDisable(true);
 		exitButton.setDisable(true);
 		score.setText(displayCurrentWinning());
-		
+	
+
+
 		for (int i = 0; i < 22; i++){
 			PauseTransition pause = new PauseTransition(Duration.millis(100* i));
 			
@@ -182,7 +184,8 @@ public class BetCard{
 		winningSpots = new HashSet<>();
 		nextDrawingButton.setDisable(true);
 		score.setText(displayCurrentWinning());
-		
+
+
 		for (int i = 0; i < 22; i++){
 			PauseTransition pause = new PauseTransition(Duration.millis(100* i));
 			
