@@ -25,7 +25,14 @@ public class JavaFXTemplate extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
 		primaryStage.setTitle("Welcome to JavaFX");
-		
+
+
+		//ADJUST WHEN NEEDED, IM JUST ADDING A LINE OR 2 OF CODE 
+		GameScene game = new GameScene(); //= new GameScene<>();
+		primaryStage.setScene(game.scene);
+		primaryStage.show();
+
+		/*
 		 Rectangle rect = new Rectangle (100, 40, 100, 100);
 	     rect.setArcHeight(50);
 	     rect.setArcWidth(50);
@@ -55,7 +62,7 @@ public class JavaFXTemplate extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		
-				
+			*/	
 		
 	}
 
