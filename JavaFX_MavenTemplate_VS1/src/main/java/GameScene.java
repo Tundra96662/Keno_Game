@@ -45,8 +45,8 @@ public class GameScene {
 		///
 		//
 		
-		Button newLookButton = new Button("New Look");
-		newLookButton.setOnAction(e -> {});
+		ToggleButton newLookButton = new ToggleButton("New Look");
+		
 		//
 		///
 		//
@@ -252,10 +252,12 @@ public class GameScene {
 
 		Text STText = new Text("How many drawings will you play?"); 
 		HBox STBUTTONS = new HBox();
-
+		
+		Button[] STBUTTONSARRAY = new Button[4];
 		for (int i = 1; i < 5; i++){
 			final int actVal = i;
 			Button curButton = new Button(Integer.toString(actVal));
+			STBUTTONSARRAY[i-1] = curButton;
 			STBUTTONS.getChildren().add(curButton);
 			
 			curButton.setOnAction(e->{
@@ -286,10 +288,12 @@ public class GameScene {
 		Text SOText = new Text("How many spots will you play?"); 
 		HBox SOBUTTONS = new HBox();
 
+		Button[] SOBUTTONSARRAY = new Button[4];
 		int[] SOVALS = {1,4,8,10};
 		for (int i = 0; i < 4; i++){
 			final int actVal = SOVALS[i];
 			Button curButton = new Button(Integer.toString(actVal));
+			SOBUTTONSARRAY[i] = curButton;
 			SOBUTTONS.getChildren().add(curButton);
 			
 			curButton.setOnAction(e->{
@@ -311,9 +315,12 @@ public class GameScene {
 			for (int y = 0; y < 8; y++){
 				for (int x = 0; x < 10; x++){
 					betCardButtons[y][x].setStyle("");
+					betCardButtons[y][x].setSelected(false);
 				}
 			}
+			BETCARD.resetGame();
 			statText.setText(BETCARD.displayClear());
+			beginButton.setDisable(true);
 			stackPane.getChildren().clear();
 			stackPane.getChildren().addAll(bottomPane,setupOne);
 		});
@@ -329,7 +336,65 @@ public class GameScene {
 		root.setBottom(BOTTOMBORDER);
 
 
+		///THIS IS TAKEN FROM THE VERY BEGINNING
+		newLookButton.setOnAction(e -> {
+			if (newLookButton.isSelected()){
+				root.setStyle("-fx-background-color: #2E1F38");
+				toolBar.setStyle("-fx-background-color: #675673");
+				bottomPane.setFill(Color.web("#403C6C"));
+				statsPane.setFill(Color.web("#403C6C"));
 
+				newLookButton.setStyle("-fx-background-color: #8481AB; -fx-text-fill: white");
+				menuButton.setStyle("-fx-background-color: #8481AB; -fx-text-fill: white");
+
+				statText.setFill(Color.WHITE);
+				DT.setFill(Color.WHITE);
+				SOText.setFill(Color.WHITE);
+				STText.setFill(Color.WHITE);
+				SHText.setFill(Color.WHITE);
+
+				for (int i = 0; i < SOBUTTONSARRAY.length; i++){
+					SOBUTTONSARRAY[i].setStyle("-fx-background-color: #8481AB; -fx-text-fill: white");
+					STBUTTONSARRAY[i].setStyle("-fx-background-color: #8481AB; -fx-text-fill: white");
+				}
+
+				quickPickButton.setStyle("-fx-background-color: #8481AB; -fx-text-fill: white");
+				beginButton.setStyle("-fx-background-color: #8481AB; -fx-text-fill: white");
+				nextDrawingButton.setStyle("-fx-background-color: #8481AB; -fx-text-fill: white");
+				goAgainButton.setStyle("-fx-background-color: #8481AB; -fx-text-fill: white");
+				exitProgramButton.setStyle("-fx-background-color: #8481AB; -fx-text-fill: white");
+
+				//menuButtonRules.setStyle("-fx-background-color: #8481AB");
+				//menuButtonProbability.setStyle("-fx-background-color: #8481AB");
+				//menuButtonQuit.setStyle("-fx-background-color: #8481AB");
+			}else{
+				root.setStyle("");
+				toolBar.setStyle("");
+				bottomPane.setFill(Color.LIGHTGREY);
+				statsPane.setFill(Color.LIGHTGREY);
+
+				newLookButton.setStyle("");
+				menuButton.setStyle("");
+				
+				statText.setFill(Color.BLACK);
+				DT.setFill(Color.BLACK);
+				SOText.setFill(Color.BLACK);
+				STText.setFill(Color.BLACK);
+				SHText.setFill(Color.BLACK);
+			
+				for (int i = 0; i < SOBUTTONSARRAY.length; i++){
+					SOBUTTONSARRAY[i].setStyle("");
+					STBUTTONSARRAY[i].setStyle("");
+				}
+
+				quickPickButton.setStyle("");
+				beginButton.setStyle("");
+				nextDrawingButton.setStyle("");
+				goAgainButton.setStyle("");
+				exitProgramButton.setStyle("");
+			}
+
+		});
 
 
 
