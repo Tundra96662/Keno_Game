@@ -45,7 +45,10 @@ public class BetCard{
 		maxDrawing = drawing;
 	}
 
-
+	public void resetGame(){
+		curDrawing = 1;
+		selectedSpots = new HashSet<>();
+	}
 
 	public int scoreCalculation(){
 		int result = 0;
