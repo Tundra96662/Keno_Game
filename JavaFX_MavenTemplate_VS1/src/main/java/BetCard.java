@@ -54,7 +54,7 @@ public class BetCard{
 		int result = 0;
 		switch(maxSelectedSpots){
 			case 1:
-				if (correctSpots == 1) return 11;
+				if (correctSpots == 1) return 2;
 			break;
 
 			case 4:
