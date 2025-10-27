@@ -159,7 +159,7 @@ public class WelcomeScene {
 
 
     private void showGamePlayScene() {
-        GamePlayScene gamePlayScene = new GamePlayScene(primaryStage);
-        gamePlayScene.display();
+        GameScene gamePlayScene = new GameScene(primaryStage);
+        gamePlayScene.display(primaryStage);
     }
 }
